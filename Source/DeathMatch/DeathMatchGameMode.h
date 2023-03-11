@@ -7,13 +7,9 @@
 #include "DeathMatchGameMode.generated.h"
 
 UCLASS(minimalapi)
-class ADeathMatchGameMode : public AGameModeBase
-{
-	GENERATED_BODY()
+class ADeathMatchGameMode : public AGameModeBase {
+  GENERATED_BODY()
 
-public:
-	ADeathMatchGameMode();
+ public:
+  ADeathMatchGameMode();
 };
-
-
-
