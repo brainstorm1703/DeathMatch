@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "DeathMatchProjectile.h"
+#include "DeathMatchGameMode.h"
 
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
@@ -34,6 +35,7 @@ ADeathMatchProjectile::ADeathMatchProjectile() {
 
   // Die after 3 seconds by default
   InitialLifeSpan = 3.0f;
+
 }
 
 void ADeathMatchProjectile::OnHit(UPrimitiveComponent* HitComp,
@@ -42,10 +44,19 @@ void ADeathMatchProjectile::OnHit(UPrimitiveComponent* HitComp,
                                   FVector NormalImpulse,
                                   const FHitResult& Hit) {
   // Only add impulse and destroy projectile if we hit a physics
+
+  ADeathMatchGameMode* DeathMatchGameMode =
+      (ADeathMatchGameMode*)GetWorld()->GetAuthGameMode();
   if ((OtherActor != nullptr) && (OtherActor != this) &&
       (OtherComp != nullptr)) {
     // OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f,
     // GetActorLocation());
+      
+    DeathMatchGameMode->KillsNum++;
+
+    if (DeathMatchGameMode->KillsNum == 10) {
+      DeathMatchGameMode->DeleteEnemy();
+    }
 
     OtherActor->Destroy();
 
